@@ -25,8 +25,10 @@ public class DateAndTime {
 		LocalDate now = LocalDate.now();
 		// Date locale du 12 janvier 1975
 		LocalDate parameterDate = LocalDate.of(1975, 1, 12);
+
 		// Compare uniquement les années de parameterDate et now()
 		Year.from(parameterDate).isAfter(Year.now());
+
 		// Création d'un formatteur de dateTime
 		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy à HH:mm");
 		System.out.println("Le départ aura lieu le " + LocalDateTime.of(2022, 7, 3, 10, 23).format(dateTimeFormatter));
@@ -38,7 +40,7 @@ public class DateAndTime {
 		Boolean isYearAfter2000 = now.query(t -> t.get(ChronoField.YEAR) > 2000);
 
 		// Trouver le dernier jour d'une année
-		LocalDate lastDayOfYear = LocalDate.of(2000, 1, 15).with(TemporalAdjusters.lastDayOfYear());
+		LocalDate lastDayOfYear = LocalDate.of(2000, 1, 15).with(TemporalAdjusters.nextOrSame(DayOfWeek.MONDAY));
 		System.out.println("Le dernier jour de l'année est : " + lastDayOfYear);
 
 		LocalDateTime birthDay = LocalDateTime.of(1981, 12, 12, 10, 15);
@@ -58,17 +60,18 @@ public class DateAndTime {
 		JapaneseDate japaneseDate = JapaneseDate.from(occidentalDate);
 		LocalDate.from(japaneseDate);
 
+
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("MMM d yyyy  HH:mm");
 		LocalDateTime heureDepart = LocalDateTime.of(2013, Month.JULY, 20, 19, 30);
 		ZoneId zoneParis = ZoneId.of("Europe/Paris");
 		ZoneId zonePorto = ZoneId.of("Europe/Lisbon");
 		ZonedDateTime heureDepartZoneParis = ZonedDateTime.of(heureDepart, zoneParis);
-		ZonedDateTime heureDepartZonePorto = heureDepartZoneParis.withZoneSameInstant(zonePorto);
+		ZonedDateTime heureDepartZoneLisbon = heureDepartZoneParis.withZoneSameInstant(zonePorto);
 
 		try {
 			String out1 = heureDepartZoneParis.format(format);
 			System.out.printf("DEPART :  %s (%s)%n", out1, zoneParis);
-			String out2 = heureDepartZonePorto.format(format);
+			String out2 = heureDepartZoneLisbon.format(format);
 			System.out.printf("DEPART :  %s (%s)%n", out2, zonePorto);
 		} catch (DateTimeException exc) {
 			System.out.printf("%s can't be formatted!%n", heureDepartZoneParis);
@@ -77,7 +80,8 @@ public class DateAndTime {
 
 		// Le vol dure 10 heures et 50 minutes
 		ZoneId arrivingZone = ZoneId.of("Asia/Tokyo");
-		ZonedDateTime arrival = heureDepartZoneParis.withZoneSameInstant(arrivingZone)
+		ZonedDateTime arrival = heureDepartZoneParis
+				.withZoneSameInstant(arrivingZone)
 				.plusMinutes(650);
 
 		try {
