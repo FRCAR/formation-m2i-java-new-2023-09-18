@@ -28,12 +28,10 @@ public class SwitchExercice {
 			if (activation) {
 				yield Etat.OK;
 			} else {
-				yield Etat.KO;
+				yield Etat.UNDEFINED;
 			}
 		}
-		default -> {
-			yield Etat.UNDEFINED;
-		}
+		default -> Etat.UNDEFINED;
 		};
 
 		System.out.println(monResultat);
