@@ -13,7 +13,7 @@ public class StringUtils {
 		System.out.println("Ci après le caractère espace em -" + emSpace + "-");
 
 		// Utilisons le dans une phrase
-		String phrase = emSpace + "Salut!" + emSpace;
+		String phrase = emSpace + "Salut Ca va !" + emSpace;
 		System.out.println("Avec strip : début-" + phrase.strip() + "-fin");
 		System.out.println("Avec trim : début-" + phrase.trim() + "-fin");
 		String phrase2 = " " + emSpace;
